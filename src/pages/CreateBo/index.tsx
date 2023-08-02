@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Button, StyleSheet, Text, TouchableOpacity, View, Image, SafeAreaView } from 'react-native';
 
 import * as Location from 'expo-location';
+import { Details } from './Form';
 
 export function CreateBo() {
   const camRef = useRef<Camera | null>(null);
@@ -90,10 +91,11 @@ export function CreateBo() {
               style={styles.capturedPhoto}
               source={{ uri: capturedPhoto }}
             />
+              <Details/>
               <TouchableOpacity
                 style={styles.buttonNext}
                 >
-                <Text style={styles.text}>Seguinte</Text>
+                <Text style={styles.text}>Postar</Text>
               </TouchableOpacity>
           </View>
         )
@@ -118,7 +120,7 @@ const styles = StyleSheet.create({
     borderColor: 'red',
   },
   buttonNext: {
-    height: 80,
+    height: 50,
     alignItems: 'center',
     backgroundColor: 'blue',
   },

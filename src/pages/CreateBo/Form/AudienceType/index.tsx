@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 
-export const TypeAudience = () => {
+export const AudienceType = () => {
   const [selectedOption, setSelectedOption] = useState<'todos' | 'amigos'>('todos');
 
   const handleOptionSelection = (option:any) => {
