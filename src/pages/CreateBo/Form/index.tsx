@@ -5,7 +5,7 @@ import { AudienceType } from "./AudienceType";
 export function Details() {
   return (
     <View style={styles.container}>
-      <TypePlace/>
+      <TypePlace />
       <AudienceType/>
     </View>
   )

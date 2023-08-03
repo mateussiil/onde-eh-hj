@@ -6,9 +6,7 @@ import { Picker } from '@react-native-picker/picker';
 
 const placeTypes = ['Restaurante', 'Parque', 'Museu', 'Shopping', 'Praia'];
 
-export const TypePlace = () => {
-  const { register, handleSubmit } = useForm();
-
+export const TypePlace = ({ handleSelect }: any) => {
   const [selectedTiposLocais, setSelectedTiposLocais] = useState([]);
 
   return (
@@ -19,11 +17,13 @@ export const TypePlace = () => {
       </View>
       <Picker
         selectedValue={selectedTiposLocais}
-        onValueChange={(itemValue, itemIndex) =>
+        onValueChange={(itemValue: any, itemIndex: any) =>{
+          console.log(itemValue, itemIndex)
           setSelectedTiposLocais(itemValue)
-        }>
-        {placeTypes.map((places) =>
-          <Picker.Item label={places} value={places} />
+          handleSelect(itemValue)
+        }}>
+        {placeTypes.map((place) =>
+          <Picker.Item key={place} label={place} value={place} />
         )}
       </Picker>
     </View>
