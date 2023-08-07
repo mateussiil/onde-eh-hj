@@ -1,19 +1,10 @@
-import { Camera, CameraType } from 'expo-camera';
-import { useEffect, useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
-export function CreateBo() {
-  async function createBo() {
-  }
-
+export default function MapScreen() {
   return (
     <View style={styles.container}>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={createBo}>
-          <Text style={styles.text}>Onde é hoje?</Text>
-        </TouchableOpacity>
+        <Text style={styles.text}>Mapa</Text>
       </View>
     </View>
   );

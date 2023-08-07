@@ -1,18 +1,14 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import { CreateBo } from './src/pages/CreateBo';
+import { QueryClient, QueryClientProvider } from 'react-query';
+
+import Navigation from './src/routes';
+
+const queryClient = new QueryClient();
 
 export default function App() {
   return (
-    <CreateBo/>
+    <QueryClientProvider client={queryClient}>
+      <Navigation />
+    </QueryClientProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

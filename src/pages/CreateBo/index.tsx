@@ -7,15 +7,18 @@ import { Details } from './Form';
 import axios from 'axios';
 import { TypePlace } from './Form/PlaceType';
 import { AudienceType } from './Form/AudienceType';
+import { arrayToFormData } from '../../utils/array';
+import { Coordinates } from '../../types';
+import { environment } from '../../environment';
 
-export function CreateBo() {
+export default function CreateBo() {
   const camRef = useRef<Camera | null>(null);
 
   const [type, setType] = useState(CameraType.back);
   const [permission, requestPermission] = Camera.useCameraPermissions();
 
   const [capturedPhoto, setCapturedPhoto] = useState('');
-  const [location, setLocation] = useState<Location.LocationObject | null>(null);
+  const [location, setLocation] = useState<Coordinates | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [selectedPlace, setSelectedPlace] = useState('Parque');
   const [selectedAudience, setSelectedAudience] = useState('Friends');
@@ -37,8 +40,6 @@ export function CreateBo() {
         return;
       }
 
-      console.log('granted');
-
       const location = await Location.getCurrentPositionAsync({
         accuracy: Location.Accuracy.Highest,
         distanceInterval: 10_000_000,
@@ -48,11 +49,9 @@ export function CreateBo() {
       const latitude = location.coords.latitude;
       const longitude = location.coords.longitude;
 
-      console.log('Posição atual:');
-      console.log('Latitude:', latitude);
-      console.log('Longitude:', longitude);
+      const coordinates: Coordinates = [longitude, latitude]
 
-      setLocation(location);
+      setLocation(coordinates);
     })();
   }, []);
 
@@ -101,20 +100,18 @@ export function CreateBo() {
 
     //@ts-ignore
     data.append('image', { uri: capturedPhoto, name: filename, type: 'image/jpeg' });
-    //@ts-ignore
     data.append('audience', selectedAudience);
-    //@ts-ignore
     data.append('placeType', selectedPlace);
-    //@ts-ignore
-    data.append('coordinates', location || [-104.9903, 39.7392]);
 
-    await axios.post('http://192.168.153.1:3001/bo', data, {
+    arrayToFormData("coordinates", data, location || [-104.9903, 39.7392])
+
+    await axios.post(environment.backendURL + '/bo', data, {
       headers: { 'Content-Type': 'multipart/form-data' },
     }).then((data) => {
-      console.log('Postagem enviada com sucesso:', data);
+      console.log('Postagem enviada com sucesso');
     })
     .catch((error) => {
-      console.error('Erro ao enviar postagem:', error);
+      console.error('Erro ao enviar postagem');
     });
   }
 
