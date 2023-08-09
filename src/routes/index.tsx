@@ -2,7 +2,7 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import TimelineScreen from '../pages/TimelineScreen';
-import MapScreen from '../pages/MapScreen';
+import { MapScreen } from '../pages/MapScreen';
 import CreateBo from '../pages/CreateBo';
 
 const Tab = createBottomTabNavigator();

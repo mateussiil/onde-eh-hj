@@ -1,11 +1,17 @@
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import MapView, { Marker } from 'react-native-maps';
+import { StyleSheet, View } from 'react-native';
+import { useQuery } from 'react-query';
+import { fetchBo } from '../../services/bo';
 
-export default function MapScreen() {
+export function MapScreen() {
+  const { data: bos, refetch, isFetching } = useQuery("bo", fetchBo);
+
   return (
     <View style={styles.container}>
-      <View style={styles.buttonContainer}>
-        <Text style={styles.text}>Mapa</Text>
-      </View>
+      <MapView style={styles.map} >
+        {bos?.map(bo => <Marker coordinate={{ longitude: bo.location.coordinates[0], latitude: bo.location.coordinates[1]  } }/>)}
+      </MapView>
     </View>
   );
 }
@@ -13,23 +19,9 @@ export default function MapScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
   },
-  buttonContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    backgroundColor: 'transparent',
-    margin: 64,
-  },
-  button: {
-    flex: 1,
-    alignSelf: 'flex-end',
-    alignItems: 'center',
-    backgroundColor: 'blue',
-  },
-  text: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: 'white',
+  map: {
+    width: '100%',
+    height: '100%',
   },
 });
