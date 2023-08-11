@@ -1,15 +1,18 @@
 import { Camera, CameraType } from 'expo-camera';
 import { useEffect, useRef, useState } from 'react';
-import { Button, StyleSheet, Text, TouchableOpacity, View, Image, SafeAreaView } from 'react-native';
-
+import { Button, StyleSheet, Text, TouchableOpacity, View, Image, SafeAreaView, ScrollView } from 'react-native';
 import * as Location from 'expo-location';
-import { Details } from './Form';
+import Toast from 'react-native-root-toast';
 import axios from 'axios';
+
+import { Details } from './Form';
 import { TypePlace } from './Form/PlaceType';
 import { AudienceType } from './Form/AudienceType';
 import { arrayToFormData } from '../../utils/array';
 import { Coordinates } from '../../types';
 import { environment } from '../../environment';
+
+const defautlAudience = 'Friends'
 
 export default function CreateBo() {
   const camRef = useRef<Camera | null>(null);
@@ -17,11 +20,11 @@ export default function CreateBo() {
   const [type, setType] = useState(CameraType.back);
   const [permission, requestPermission] = Camera.useCameraPermissions();
 
-  const [capturedPhoto, setCapturedPhoto] = useState('');
+  const [capturedPhoto, setCapturedPhoto] = useState<null | string>(null);
   const [location, setLocation] = useState<Coordinates | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [selectedPlace, setSelectedPlace] = useState('Parque');
-  const [selectedAudience, setSelectedAudience] = useState('Friends');
+  const [selectedAudience, setSelectedAudience] = useState(defautlAudience);
 
   useEffect(() => {
     function getCurrentLocation() {
@@ -55,8 +58,6 @@ export default function CreateBo() {
     })();
   }, []);
 
-
-
   if (!permission) {
     return <View />;
   }
@@ -86,6 +87,10 @@ export default function CreateBo() {
 
     return captured;
   }
+
+  function showToast() {
+    Toast.show('Poto cadastrada!', { duration: Toast.durations.LONG });
+  }
   
   async function takeDetails() {
     await takePicture();
@@ -108,6 +113,8 @@ export default function CreateBo() {
     await axios.post(environment.backendURL + '/bo', data, {
       headers: { 'Content-Type': 'multipart/form-data' },
     }).then((data) => {
+      setCapturedPhoto(null);
+      showToast();
       console.log('Postagem enviada com sucesso');
     })
     .catch((error) => {
@@ -132,20 +139,22 @@ export default function CreateBo() {
             </View>
           </Camera>
         ) : (
-          <View style={styles.capturedPhotoContainer}>
-            <Image
-              style={styles.capturedPhoto}
-              source={{ uri: capturedPhoto }}
-            />
-              {/* <TypePlace handleSelect={setSelectedPlace}/>
-              <AudienceType handleSelect={setSelectedAudience}/> */}
-              <TouchableOpacity
-                onPress={createBo}
-                style={styles.buttonNext}
-                >
-                <Text style={styles.text}>Postar</Text>
-              </TouchableOpacity>
-          </View>
+          <ScrollView>
+            <View style={styles.capturedPhotoContainer}>
+              <Image
+                style={styles.capturedPhoto}
+                source={{ uri: capturedPhoto }}
+              />
+                <TypePlace handleSelect={setSelectedPlace}/>
+                <AudienceType handleSelect={setSelectedAudience} value={defautlAudience}/>
+                <TouchableOpacity
+                  onPress={createBo}
+                  style={styles.buttonNext}
+                  >
+                  <Text style={styles.text}>Postar</Text>
+                </TouchableOpacity>
+            </View>
+          </ScrollView>
         )
       }
       </View>
@@ -159,7 +168,6 @@ const styles = StyleSheet.create({
   },
   capturedPhotoContainer: {
     flex: 1,
-
     padding: 40,
   },
   capturedPhoto: {

@@ -1,5 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { RootSiblingParent } from 'react-native-root-siblings';
 
 import Navigation from './src/routes';
 
@@ -8,7 +9,9 @@ const queryClient = new QueryClient();
 export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <Navigation />
+      <RootSiblingParent> 
+        <Navigation />
+      </RootSiblingParent>
     </QueryClientProvider>
   );
 }

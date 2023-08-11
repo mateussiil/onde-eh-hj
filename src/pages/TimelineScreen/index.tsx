@@ -12,10 +12,9 @@ const Timeline = () => {
     refetch();
   };
 
-
   return (
       <FlatList
-        data={data || []}
+        data={(data || []).reverse()}
         keyExtractor={(item) => item._id}
         renderItem={({ item }) => <TimelineItem username={"User A"} imageSource={item.image} />}
         refreshControl={

@@ -10,7 +10,7 @@ export function MapScreen() {
   return (
     <View style={styles.container}>
       <MapView style={styles.map} >
-        {bos?.map(bo => <Marker coordinate={{ longitude: bo.location.coordinates[0], latitude: bo.location.coordinates[1]  } }/>)}
+        {(bos || [])?.map(bo => <Marker coordinate={{ longitude: bo.location.coordinates[0], latitude: bo.location.coordinates[1]  } }/>)}
       </MapView>
     </View>
   );
