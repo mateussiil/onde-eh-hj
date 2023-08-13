@@ -12,7 +12,7 @@ import { arrayToFormData } from '../../utils/array';
 import { Coordinates } from '../../types';
 import { environment } from '../../environment';
 
-const defautlAudience = 'Friends'
+const defaultAudience = 'Friends'
 
 export default function CreateBo() {
   const camRef = useRef<Camera | null>(null);
@@ -24,18 +24,9 @@ export default function CreateBo() {
   const [location, setLocation] = useState<Coordinates | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [selectedPlace, setSelectedPlace] = useState('Parque');
-  const [selectedAudience, setSelectedAudience] = useState(defautlAudience);
+  const [selectedAudience, setSelectedAudience] = useState(defaultAudience);
 
   useEffect(() => {
-    function getCurrentLocation() {
-      const timeout = 10000;
-      return new Promise(async (resolve, reject) => {
-        setTimeout(() => { reject(new Error(`Error getting gps location after ${(timeout * 2) / 1000} s`)) }, timeout * 2);
-        setTimeout(async () => { resolve(await Location.getLastKnownPositionAsync()) }, timeout);
-        resolve(await Location.getCurrentPositionAsync());
-      });
-    }
-
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== 'granted') {
@@ -89,7 +80,7 @@ export default function CreateBo() {
   }
 
   function showToast() {
-    Toast.show('Poto cadastrada!', { duration: Toast.durations.LONG });
+    Toast.show('Foto cadastrada!', { duration: Toast.durations.LONG });
   }
   
   async function takeDetails() {
@@ -146,7 +137,7 @@ export default function CreateBo() {
                 source={{ uri: capturedPhoto }}
               />
                 <TypePlace handleSelect={setSelectedPlace}/>
-                <AudienceType handleSelect={setSelectedAudience} value={defautlAudience}/>
+                <AudienceType handleSelect={setSelectedAudience} value={defaultAudience}/>
                 <TouchableOpacity
                   onPress={createBo}
                   style={styles.buttonNext}

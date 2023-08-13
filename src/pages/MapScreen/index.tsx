@@ -5,7 +5,7 @@ import { useQuery } from 'react-query';
 import { fetchBo } from '../../services/bo';
 
 export function MapScreen() {
-  const { data: bos, refetch, isFetching } = useQuery("bo", fetchBo);
+  const { data: bos } = useQuery("bo", fetchBo);
 
   return (
     <View style={styles.container}>
