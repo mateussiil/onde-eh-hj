@@ -1,8 +1,8 @@
-import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import TimelineScreen from '../pages/TimelineScreen';
-import { MapScreen } from '../pages/MapScreen';
+import React from 'react';
 import CreateBo from '../pages/CreateBo';
+import { MapScreen } from '../pages/MapScreen';
+import TimelineScreen from '../pages/TimelineScreen';
 
 const Tab = createBottomTabNavigator();
 

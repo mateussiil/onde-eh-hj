@@ -1,16 +1,15 @@
-import { Camera, CameraType } from 'expo-camera';
-import { useEffect, useRef, useState } from 'react';
-import { Button, StyleSheet, Text, TouchableOpacity, View, Image, SafeAreaView, ScrollView } from 'react-native';
-import * as Location from 'expo-location';
-import Toast from 'react-native-root-toast';
 import axios from 'axios';
+import { Camera, CameraType } from 'expo-camera';
+import * as Location from 'expo-location';
+import { useEffect, useRef, useState } from 'react';
+import { Button, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import Toast from 'react-native-root-toast';
 
-import { Details } from './Form';
-import { TypePlace } from './Form/PlaceType';
-import { AudienceType } from './Form/AudienceType';
-import { arrayToFormData } from '../../utils/array';
-import { Coordinates } from '../../types';
 import { environment } from '../../environment';
+import { Coordinates } from '../../types';
+import { arrayToFormData } from '../../utils/array';
+import { AudienceType } from './Form/AudienceType';
+import { TypePlace } from './Form/PlaceType';
 
 const defaultAudience = 'Friends'
 
@@ -82,7 +81,7 @@ export default function CreateBo() {
   function showToast() {
     Toast.show('Foto cadastrada!', { duration: Toast.durations.LONG });
   }
-  
+
   async function takeDetails() {
     await takePicture();
   }
@@ -114,42 +113,40 @@ export default function CreateBo() {
   }
 
   return (
-    <SafeAreaView style={styles.root}>
-      <View style={styles.container}>
-        {!capturedPhoto ? (
-          <Camera 
-            ref={camRef}
-            style={styles.camera} 
-            type={type}>
-            <View style={styles.buttonContainer}>
-              <TouchableOpacity 
-                style={styles.button} 
-                onPress={async () => await takeDetails()}>
-                <Text style={styles.text}>Onde é hoje?</Text>
+    <View style={styles.container}>
+      {!capturedPhoto ? (
+        <Camera
+          ref={camRef}
+          style={styles.camera}
+          type={type}>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={async () => await takeDetails()}>
+              <Text style={styles.text}>Onde é hoje?</Text>
+            </TouchableOpacity>
+          </View>
+        </Camera>
+      ) : (
+        <ScrollView>
+          <View style={styles.capturedPhotoContainer}>
+            <Image
+              style={styles.capturedPhoto}
+              source={{ uri: capturedPhoto }}
+            />
+              <TypePlace handleSelect={setSelectedPlace}/>
+              <AudienceType handleSelect={setSelectedAudience} value={defaultAudience}/>
+              <TouchableOpacity
+                onPress={createBo}
+                style={styles.buttonNext}
+                >
+                <Text style={styles.text}>Postar</Text>
               </TouchableOpacity>
-            </View>
-          </Camera>
-        ) : (
-          <ScrollView>
-            <View style={styles.capturedPhotoContainer}>
-              <Image
-                style={styles.capturedPhoto}
-                source={{ uri: capturedPhoto }}
-              />
-                <TypePlace handleSelect={setSelectedPlace}/>
-                <AudienceType handleSelect={setSelectedAudience} value={defaultAudience}/>
-                <TouchableOpacity
-                  onPress={createBo}
-                  style={styles.buttonNext}
-                  >
-                  <Text style={styles.text}>Postar</Text>
-                </TouchableOpacity>
-            </View>
-          </ScrollView>
-        )
-      }
-      </View>
-    </SafeAreaView>
+          </View>
+        </ScrollView>
+      )
+    }
+    </View>
   );
 }
 
