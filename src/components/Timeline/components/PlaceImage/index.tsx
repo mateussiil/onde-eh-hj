@@ -10,19 +10,33 @@ type PlaceImageTimelineItem = {
 const PlaceImageTimelineItem = ({ imageSource }: PlaceImageTimelineItem) => {
   const { data, isLoading } = useQuery({
     queryKey: ['image', imageSource],
-    queryFn: () => fetchImage(imageSource)
+    queryFn: () => fetchImage(imageSource),
+    retry: false,
+    enabled: Boolean(imageSource)
   });
 
   if (isLoading) {
-    return <ActivityIndicator size="small" color="gray" />;
+    return (
+      <View style={[styles.image, styles.center]}>
+        <ActivityIndicator size="large" color="gray" />
+      </View>
+    );
   }
 
   if (!data) {
-    return <Text>Erro ao carregar a imagem.</Text>;
+    return (
+      <View style={[styles.image, styles.center]}>
+        <Text>Erro ao carregar a imagem.</Text>
+      </View>
+    );
   }
 
   return (
-     <Image source={{ uri: data }} style={styles.image} />
+    <Image
+      source={{ uri: imageSource }}
+      style={styles.image}
+      resizeMode="cover"
+    />
   );
 };
 
@@ -32,6 +46,11 @@ const styles = StyleSheet.create({
     height: 300,
     borderRadius: 8,
   },
+  center: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#f5f5f5'
+  }
 });
 
 export default PlaceImageTimelineItem;

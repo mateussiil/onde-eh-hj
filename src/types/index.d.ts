@@ -4,7 +4,7 @@ type Longitude = number;
 export type Coordinates = [Longitude, Latitude];
 
 interface IPost {
-  __v: number;
+  __v?: number;
   _id: string;
   location: {
     type: {
