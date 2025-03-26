@@ -6,6 +6,8 @@ export type Coordinates = [Longitude, Latitude];
 interface IPost {
   __v?: number;
   _id: string;
+  address: string;
+  peopleNumber: number
   location: {
     type: {
       type: string;

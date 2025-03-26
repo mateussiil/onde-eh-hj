@@ -10,6 +10,7 @@ import { Coordinates } from '../../types';
 import { arrayToFormData } from '../../utils/array';
 import { AudienceType } from './Form/AudienceType';
 import { TypePlace } from './Form/PlaceType';
+import { createBo } from '../../services/bo';
 
 const defaultAudience = 'Friends'
 
@@ -86,7 +87,7 @@ export default function CreateBo() {
     await takePicture();
   }
 
-  async function createBo() {
+  async function onPress() {
     if (!capturedPhoto) return
 
     const data = new FormData();
@@ -100,9 +101,7 @@ export default function CreateBo() {
 
     arrayToFormData("coordinates", data, location || [-104.9903, 39.7392])
 
-    await axios.post(environment.backendURL + '/bo', data, {
-      headers: { 'Content-Type': 'multipart/form-data' },
-    }).then((data) => {
+    createBo(data).then(() => {
       setCapturedPhoto(null);
       showToast();
       console.log('Postagem enviada com sucesso');
@@ -137,7 +136,7 @@ export default function CreateBo() {
               <TypePlace handleSelect={setSelectedPlace}/>
               <AudienceType handleSelect={setSelectedAudience} value={defaultAudience}/>
               <TouchableOpacity
-                onPress={createBo}
+                onPress={onPress}
                 style={styles.buttonNext}
                 >
                 <Text style={styles.text}>Postar</Text>
