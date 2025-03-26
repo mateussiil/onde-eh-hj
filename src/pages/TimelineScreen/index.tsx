@@ -11,8 +11,7 @@ const Timeline = () => {
   const navigation = useNavigation<NavigationProps>();
   const { data, refetch, isRefetching } = useQuery({
     queryKey: ['bo'],
-    queryFn: fetchBo,
-    enabled: false
+    queryFn: fetchBo
   });
 
   const handleRefresh = () => {

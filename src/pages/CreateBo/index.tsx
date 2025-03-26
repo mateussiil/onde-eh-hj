@@ -7,6 +7,7 @@ import Toast from 'react-native-root-toast';
 import { useNavigation } from '@react-navigation/native';
 import { NavigationProps } from '../../types/navigation';
 import { Feather } from '@expo/vector-icons';
+import { useQueryClient } from '@tanstack/react-query';
 
 import { environment } from '../../environment';
 import { Coordinates } from '../../types';
@@ -21,6 +22,7 @@ const { width } = Dimensions.get('window');
 export default function CreateBo() {
   const camRef = useRef<Camera | null>(null);
   const navigation = useNavigation<NavigationProps>();
+  const queryClient = useQueryClient();
 
   const [type, setType] = useState(CameraType.back);
   const [permission, requestPermission] = Camera.useCameraPermissions();
@@ -112,6 +114,7 @@ export default function CreateBo() {
       setCapturedPhoto(null);
       showToast();
       console.log('Postagem enviada com sucesso');
+      await queryClient.invalidateQueries({ queryKey: ['bo'] });
     } catch (error) {
       console.error('Erro ao enviar postagem');
     } finally {
