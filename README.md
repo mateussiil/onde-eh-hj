@@ -4,10 +4,9 @@ Aplicativo mobile para compartilhar sua localização com amigos.
 
 ## 📹 Demo
 
-<video width="320" height="640" controls>
-  <source src="assets/20250326_132159.mp4" type="video/mp4">
-  Seu navegador não suporta o elemento de vídeo.
-</video>
+![Demo do App](assets/demo.gif)
+
+[▶️ Assistir vídeo completo](https://github.com/mateussiil/ondeEhj-mobile-expo/raw/master/assets/20250326_132159.mp4)
 
 ## 🚀 Tecnologias
 
@@ -73,7 +72,7 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 ## 👥 Autores
 - Mateus - [mateussiiloliveira@gmail.com](mailto:mateussiiloliveira@gmail.com)
 
-## �� Agradecimentos
+## 🎉 Agradecimentos
 - [Expo](https://expo.dev/)
 - [React Native](https://reactnative.dev/)
 - [React Navigation](https://reactnavigation.org/)
