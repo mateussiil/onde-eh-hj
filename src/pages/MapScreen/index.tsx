@@ -1,11 +1,14 @@
 import React from 'react';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
-import { useQuery } from 'react-query';
+import { useQuery } from '@tanstack/react-query';
 import { fetchBo } from '../../services/bo';
 
 export function MapScreen() {
-  const { data: bos, isLoading } = useQuery('bo', fetchBo);
+  const { data: bos, isLoading } = useQuery({
+    queryKey: ['bo'],
+    queryFn: fetchBo
+  });
 
   if (isLoading) return <ActivityIndicator size="small" color="gray" />;
 

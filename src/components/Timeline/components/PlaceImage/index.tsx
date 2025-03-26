@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet, ActivityIndicator } from 'react-native';
-import { useQuery } from 'react-query';
+import { useQuery } from '@tanstack/react-query';
 import { fetchImage } from '../../../../services/image';
 
 type PlaceImageTimelineItem = {
@@ -8,7 +8,10 @@ type PlaceImageTimelineItem = {
 }
 
 const PlaceImageTimelineItem = ({ imageSource }: PlaceImageTimelineItem) => {
-  const { data, isLoading } = useQuery(["image", imageSource], () => fetchImage(imageSource));
+  const { data, isLoading } = useQuery({
+    queryKey: ['image', imageSource],
+    queryFn: () => fetchImage(imageSource)
+  });
 
   if (isLoading) {
     return <ActivityIndicator size="small" color="gray" />;
@@ -25,13 +28,10 @@ const PlaceImageTimelineItem = ({ imageSource }: PlaceImageTimelineItem) => {
 
 const styles = StyleSheet.create({
   image: {
-    width: 300,
+    width: '100%',
     height: 300,
-    borderRadius: 10,
-    marginRight: 10,
-  }
+    borderRadius: 8,
+  },
 });
-
-
 
 export default PlaceImageTimelineItem;
