@@ -1,69 +1,67 @@
-# Onde Ehj - Aplicativo Mobile
+# Onde é hoje? - Mobile App
 
-## 📱 Sobre o Projeto
-"Onde é hj" é um aplicativo mobile desenvolvido com Expo/React Native que permite aos usuários localizar e interagir com estabelecimentos.
+Aplicativo mobile para compartilhar sua localização com amigos.
 
-## 🚀 Tecnologias Utilizadas
+## 📹 Demo
+
+<video width="320" height="640" controls>
+  <source src="assets/20250326_132159.mp4" type="video/mp4">
+  Seu navegador não suporta o elemento de vídeo.
+</video>
+
+## 🚀 Tecnologias
+
 - React Native
 - Expo
 - TypeScript
+- React Query
 - React Navigation
-- Axios
-- React Native Paper
+- Expo Camera
+- Expo Location
+- React Native Maps
 
-## 📁 Estrutura do Projeto
-```
-src/
-├── components/     # Componentes reutilizáveis
-├── pages/         # Telas do aplicativo
-├── routes/        # Configuração de navegação
-├── services/      # Serviços e APIs
-├── types/         # Definições de tipos TypeScript
-├── utils/         # Funções utilitárias
-└── environment.ts # Configurações de ambiente
-```
+## 📱 Funcionalidades
 
-## 🛠️ Como Executar
+- Tirar foto
+- Compartilhar localização
+- Visualizar timeline de posts
+- Visualizar mapa com posts
+- Configurar tipo de local
+- Configurar público (Todos/Amigos)
 
-### Pré-requisitos
-- Node.js
-- npm ou yarn
-- Expo CLI
-- Android Studio (para emulador Android) ou Xcode (para iOS)
+## 🛠️ Como executar
 
-### Instalação
 1. Clone o repositório
 ```bash
-git clone https://github.com/seu-usuario/ondeEhj-mobile-expo.git
+git clone https://github.com/mateussiil/ondeEhj-mobile-expo.git
 ```
 
 2. Instale as dependências
 ```bash
 npm install
-# ou
-yarn install
 ```
 
-3. Inicie o projeto
+3. Execute o projeto
 ```bash
 npm start
-# ou
-yarn start
 ```
 
-4. Use o aplicativo Expo Go no seu dispositivo móvel ou emulador para testar
+4. Escaneie o QR Code com o app Expo Go (Android) ou Câmera (iOS)
 
-## 📱 Funcionalidades
-- Localização de estabelecimentos
-- Visualização de detalhes
-- Interface intuitiva e responsiva
-- Navegação entre telas
-- Integração com APIs
+## 📦 Estrutura do projeto
 
-## 📹 Demo
+```
+src/
+  ├── components/     # Componentes reutilizáveis
+  ├── pages/         # Telas do aplicativo
+  ├── services/      # Serviços e APIs
+  ├── types/         # Tipos TypeScript
+  └── utils/         # Funções utilitárias
+```
 
-https://github.com/mateussiil/ondeEhj-mobile-expo/assets/mateussiil/20250326_132159.mp4
+## 📄 Licença
 
+Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
 
 ## 🤝 Contribuindo
 1. Faça um Fork do projeto
@@ -72,13 +70,10 @@ https://github.com/mateussiil/ondeEhj-mobile-expo/assets/mateussiil/20250326_132
 4. Push para a branch (`git push origin feature/AmazingFeature`)
 5. Abra um Pull Request
 
-## 📄 Licença
-Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
-
 ## 👥 Autores
 - Mateus - [mateussiiloliveira@gmail.com](mailto:mateussiiloliveira@gmail.com)
 
-## 🙏 Agradecimentos
+## �� Agradecimentos
 - [Expo](https://expo.dev/)
 - [React Native](https://reactnative.dev/)
 - [React Navigation](https://reactnavigation.org/)
