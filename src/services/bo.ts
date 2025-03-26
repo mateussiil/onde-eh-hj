@@ -3,43 +3,6 @@ import { environment } from '../environment';
 import { IPost } from '../types';
 import { addToMockData, getMockData } from './mockDataManager';
 
-const mockData: IPost[] = [
-  {
-    image: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    _id: '0',
-    audience: 'All',
-    placeType: '',
-    address: 'Santo Fogo Party, MG',
-    peopleNumber: 5,
-    location: {
-      type: {
-        type: 'string',
-        enum: ['Point'],
-        required: true,
-      },
-      coordinates: [-2.53073, -44.3068],
-      required: true
-    }
-  },
-  {
-    image: "https://images.unsplash.com/photo-1566737236500-c8ac43014a67?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    _id: '1',
-    audience: 'All',
-    placeType: '',
-    address: 'Bequimão, Bar, MG',
-    peopleNumber: 20,
-    location: {
-      type: {
-        type: 'string',
-        enum: ['Point'],
-        required: true,
-      },
-      coordinates: [-2.53073, -44.3068],
-      required: true
-    }
-  }
-];
-
 export const fetchBo = async (): Promise<IPost[]> => {
   try {
     const response = await axios.get<IPost[]>(environment.backendURL + '/bo');

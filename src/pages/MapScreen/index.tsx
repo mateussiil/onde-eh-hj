@@ -4,10 +4,11 @@ import MapView, { Marker } from 'react-native-maps';
 import { useQuery } from '@tanstack/react-query';
 import { fetchBo } from '../../services/bo';
 
-export function MapScreen() {
+const MapScreen = () => {
   const { data: bos, isLoading } = useQuery({
     queryKey: ['bo'],
-    queryFn: fetchBo
+    queryFn: fetchBo,
+    enabled: false
   });
 
   if (isLoading) return <ActivityIndicator size="small" color="gray" />;
@@ -16,12 +17,20 @@ export function MapScreen() {
     <View style={styles.container}>
       <MapView style={styles.map}>
         {(bos || [])?.map((bo, index) =>
-          <Marker key={index} coordinate={{ longitude: bo.location.coordinates[0], latitude: bo.location.coordinates[1]  } }
-        />)}
+          <Marker
+            key={index}
+            coordinate={{
+              longitude: bo.location.coordinates[0],
+              latitude: bo.location.coordinates[1]
+            }}
+            title={bo.placeType}
+            description={bo.address}
+          />
+        )}
       </MapView>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -32,3 +41,5 @@ const styles = StyleSheet.create({
     height: '100%',
   },
 });
+
+export default MapScreen;

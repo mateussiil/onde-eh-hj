@@ -4,6 +4,8 @@ import * as Location from 'expo-location';
 import { useEffect, useRef, useState } from 'react';
 import { Button, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Toast from 'react-native-root-toast';
+import { useNavigation } from '@react-navigation/native';
+import { NavigationProps } from '../../types/navigation';
 
 import { environment } from '../../environment';
 import { Coordinates } from '../../types';
@@ -16,6 +18,7 @@ const defaultAudience = 'Friends'
 
 export default function CreateBo() {
   const camRef = useRef<Camera | null>(null);
+  const navigation = useNavigation<NavigationProps>();
 
   const [type, setType] = useState(CameraType.back);
   const [permission, requestPermission] = Camera.useCameraPermissions();
@@ -87,11 +90,10 @@ export default function CreateBo() {
     await takePicture();
   }
 
-  async function onPress() {
-    if (!capturedPhoto) return
+  async function createBoAndNavigate() {
+    if (!capturedPhoto) return;
 
     const data = new FormData();
-
     let filename = capturedPhoto.split('/').pop() || 'test';
 
     //@ts-ignore
@@ -101,14 +103,16 @@ export default function CreateBo() {
 
     arrayToFormData("coordinates", data, location || [-104.9903, 39.7392])
 
-    createBo(data).then(() => {
+    try {
+      await createBo(data);
       setCapturedPhoto(null);
       showToast();
       console.log('Postagem enviada com sucesso');
-    })
-    .catch((error) => {
+    } catch (error) {
       console.error('Erro ao enviar postagem');
-    });
+    } finally {
+      navigation.navigate('Timeline');
+    }
   }
 
   return (
@@ -136,7 +140,7 @@ export default function CreateBo() {
               <TypePlace handleSelect={setSelectedPlace}/>
               <AudienceType handleSelect={setSelectedAudience} value={defaultAudience}/>
               <TouchableOpacity
-                onPress={onPress}
+                onPress={createBoAndNavigate}
                 style={styles.buttonNext}
                 >
                 <Text style={styles.text}>Postar</Text>

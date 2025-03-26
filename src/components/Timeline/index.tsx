@@ -5,13 +5,13 @@ import UserTimelineItem from './components/User';
 import PlaceImageTimelineItem from './components/PlaceImage';
 import { IPost } from '../../types';
 
-type TimelineItem = {
-  username: string
-  imageSource: string
-  item: IPost
+type TimelineItemProps = {
+  username: string;
+  imageSource: string;
+  item: IPost;
 }
 
-const TimelineItem = ({ username, imageSource, item }: TimelineItem) => {
+const TimelineItem = ({ username, imageSource, item }: TimelineItemProps) => {
   return (
     <View style={styles.container}>
       <UserTimelineItem
