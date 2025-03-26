@@ -2,10 +2,11 @@ import axios from 'axios';
 import { Camera, CameraType } from 'expo-camera';
 import * as Location from 'expo-location';
 import { useEffect, useRef, useState } from 'react';
-import { Button, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Button, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View, Dimensions } from 'react-native';
 import Toast from 'react-native-root-toast';
 import { useNavigation } from '@react-navigation/native';
 import { NavigationProps } from '../../types/navigation';
+import { Feather } from '@expo/vector-icons';
 
 import { environment } from '../../environment';
 import { Coordinates } from '../../types';
@@ -15,6 +16,7 @@ import { TypePlace } from './Form/PlaceType';
 import { createBo } from '../../services/bo';
 
 const defaultAudience = 'Friends'
+const { width } = Dimensions.get('window');
 
 export default function CreateBo() {
   const camRef = useRef<Camera | null>(null);
@@ -59,8 +61,10 @@ export default function CreateBo() {
   if (!permission.granted) {
     return (
       <View style={styles.container}>
-        <Text style={{ textAlign: 'center' }}>Sem acesso a camera</Text>
-        <Button onPress={requestPermission} title="grant permission" />
+        <Text style={styles.permissionText}>Sem acesso à câmera</Text>
+        <TouchableOpacity style={styles.permissionButton} onPress={requestPermission}>
+          <Text style={styles.permissionButtonText}>Permitir acesso</Text>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -118,81 +122,138 @@ export default function CreateBo() {
   return (
     <View style={styles.container}>
       {!capturedPhoto ? (
-        <Camera
-          ref={camRef}
-          style={styles.camera}
-          type={type}>
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={async () => await takeDetails()}>
-              <Text style={styles.text}>Onde é hoje?</Text>
-            </TouchableOpacity>
-          </View>
-        </Camera>
+        <View style={styles.cameraContainer}>
+          <Camera
+            ref={camRef}
+            style={styles.camera}
+            type={type}>
+            <View style={styles.cameraControls}>
+              <TouchableOpacity
+                style={styles.flipButton}
+                onPress={toggleCameraType}>
+                <Feather name="refresh-cw" size={24} color="white" />
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.captureButton}
+                onPress={async () => await takeDetails()}>
+                <View style={styles.captureButtonInner} />
+              </TouchableOpacity>
+            </View>
+          </Camera>
+        </View>
       ) : (
-        <ScrollView>
+        <ScrollView style={styles.scrollView}>
           <View style={styles.capturedPhotoContainer}>
             <Image
               style={styles.capturedPhoto}
               source={{ uri: capturedPhoto }}
             />
+            <View style={styles.formContainer}>
               <TypePlace handleSelect={setSelectedPlace}/>
               <AudienceType handleSelect={setSelectedAudience} value={defaultAudience}/>
               <TouchableOpacity
                 onPress={createBoAndNavigate}
-                style={styles.buttonNext}
-                >
-                <Text style={styles.text}>Postar</Text>
+                style={styles.postButton}
+              >
+                <Feather name="send" size={24} color="white" />
+                <Text style={styles.postButtonText}>Postar</Text>
               </TouchableOpacity>
+            </View>
           </View>
         </ScrollView>
-      )
-    }
+      )}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  root:{
-    flex: 1,
-  },
-  capturedPhotoContainer: {
-    flex: 1,
-    padding: 40,
-  },
-  capturedPhoto: {
-    height: 600,
-    borderWidth: 2,
-    borderColor: 'red',
-  },
-  buttonNext: {
-    height: 50,
-    alignItems: 'center',
-    backgroundColor: 'blue',
-  },
   container: {
     flex: 1,
-    justifyContent: 'center',
+    backgroundColor: '#000',
+  },
+  cameraContainer: {
+    flex: 1,
   },
   camera: {
     flex: 1,
   },
-  buttonContainer: {
+  cameraControls: {
     flex: 1,
-    flexDirection: 'row',
     backgroundColor: 'transparent',
-    margin: 64,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+    marginBottom: 40,
   },
-  button: {
-    flex: 1,
-    alignSelf: 'flex-end',
+  flipButton: {
+    position: 'absolute',
+    top: 40,
+    right: 20,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    padding: 15,
+    borderRadius: 30,
+  },
+  captureButton: {
+    width: 70,
+    height: 70,
+    borderRadius: 35,
+    backgroundColor: 'rgba(255,255,255,0.3)',
+    justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'blue',
   },
-  text: {
-    fontSize: 24,
-    fontWeight: 'bold',
+  captureButtonInner: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: 'white',
+  },
+  scrollView: {
+    flex: 1,
+  },
+  capturedPhotoContainer: {
+    flex: 1,
+  },
+  capturedPhoto: {
+    width: width,
+    height: width,
+    resizeMode: 'cover',
+  },
+  formContainer: {
+    padding: 20,
+    backgroundColor: '#fff',
+  },
+  postButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#007AFF',
+    padding: 15,
+    borderRadius: 10,
+    marginTop: 20,
+  },
+  postButtonText: {
     color: 'white',
+    fontSize: 18,
+    fontWeight: '600',
+    marginLeft: 10,
+  },
+  permissionText: {
+    fontSize: 18,
+    textAlign: 'center',
+    marginBottom: 20,
+    color: '#333',
+  },
+  permissionButton: {
+    backgroundColor: '#007AFF',
+    padding: 15,
+    borderRadius: 10,
+    width: '80%',
+    alignSelf: 'center',
+  },
+  permissionButtonText: {
+    color: 'white',
+    textAlign: 'center',
+    fontSize: 16,
+    fontWeight: '600',
   },
 });
